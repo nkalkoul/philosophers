@@ -6,7 +6,7 @@
 /*   By: nkalkoul <nkalkoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 19:45:41 by nkalkoul          #+#    #+#             */
-/*   Updated: 2025/05/17 03:09:00 by nkalkoul         ###   ########.fr       */
+/*   Updated: 2025/05/21 02:31:16 by nkalkoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,16 @@
 # include <sys/wait.h>
 # include <unistd.h>
 
+# define DEAD false
+# define ALIVE true
+
+extern int usleep (__useconds_t __useconds);
+
 typedef struct s_central
 {
 	char			**av;
 	int				ac;
-	long long		st_time;
+	long			start_time;
 	int				nb_philos;
 	long			ttdie;
 	long			tteat;
@@ -50,6 +55,10 @@ typedef struct s_philos
 }					t_philo;
 
 int		ft_parsing(t_central *central);
-long	ft_atoi(char *s);
+int		ft_atoi(char *s);
+t_philo	*ft_init_table(t_central *central);
+int		ft_init_thread(t_philo *philos, t_central *central);
+long 	ft_current_time_in_ms(void);
+void	ft_printf(t_philo *ph, char *msg);
 
 #endif
