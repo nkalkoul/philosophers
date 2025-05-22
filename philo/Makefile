@@ -1,6 +1,7 @@
-SRCS =	philo.c utils.c parsing.c routine.c
+SRCS =	philo.c \
+		$(addprefix parsing/, utils.c parsing.c) \
+		$(addprefix routine/, routine.c) 
 CC =	cc -Wall -Werror -Wextra -g3
-
 NAME =	philo
 OBJS =	$(SRCS:.c=.o)
 
@@ -21,3 +22,4 @@ fclean : clean
 	@rm -f $(NAME)
 
 re : fclean all
+

@@ -6,7 +6,7 @@
 /*   By: nkalkoul <nkalkoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 19:45:41 by nkalkoul          #+#    #+#             */
-/*   Updated: 2025/05/21 02:31:16 by nkalkoul         ###   ########.fr       */
+/*   Updated: 2025/05/22 03:51:18 by nkalkoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,6 @@
 # define DEAD false
 # define ALIVE true
 
-extern int usleep (__useconds_t __useconds);
-
 typedef struct s_central
 {
 	char			**av;
@@ -46,6 +44,7 @@ typedef struct s_central
 
 typedef struct s_philos
 {
+	int				last_eat;
 	int				id;
 	int				nb_eat;
 	pthread_t		thread;
@@ -54,11 +53,12 @@ typedef struct s_philos
 	t_central		*data;
 }					t_philo;
 
-int		ft_parsing(t_central *central);
-int		ft_atoi(char *s);
-t_philo	*ft_init_table(t_central *central);
-int		ft_init_thread(t_philo *philos, t_central *central);
-long 	ft_current_time_in_ms(void);
-void	ft_printf(t_philo *ph, char *msg);
+extern int	usleep(__useconds_t __useconds);
+int			ft_parsing(t_central *central);
+int			ft_atoi(char *s);
+t_philo		*ft_init_table(t_central *central);
+int			ft_init_thread(t_philo *philos, t_central *central);
+long		ft_current_time_in_ms(void);
+void		ft_printf(t_philo *ph, char *msg);
 
 #endif

@@ -6,11 +6,11 @@
 /*   By: nkalkoul <nkalkoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 23:51:14 by nkalkoul          #+#    #+#             */
-/*   Updated: 2025/05/21 03:01:13 by nkalkoul         ###   ########.fr       */
+/*   Updated: 2025/05/22 04:54:15 by nkalkoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "../philo.h"
 
 void	ft_take_fork(t_philo *ph)
 {
@@ -29,8 +29,10 @@ void	ft_take_fork(t_philo *ph)
 		ft_printf(ph, "has taken a fork");
 	}
 }
+
 void	ft_eat(t_philo *philos)
 {
+	philos->last_eat = ft_current_time_in_ms();
 	ft_printf(philos, " is eating");
 	usleep(philos->data->tteat);
 	philos->nb_eat++;
@@ -41,11 +43,11 @@ void	ft_drop_fork(t_philo *ph)
 	if (ph->id % 2 == 0)
 	{
 		pthread_mutex_unlock(&ph->l_fork);
-		pthread_mutex_unlock(ph->r_fork);	
+		pthread_mutex_unlock(ph->r_fork);
 	}
 	else
 	{
-		pthread_mutex_unlock(ph->r_fork);	
+		pthread_mutex_unlock(ph->r_fork);
 		pthread_mutex_unlock(&ph->l_fork);
 	}
 }
@@ -59,19 +61,18 @@ void	ft_sleep(t_philo *philos)
 void	*ft_routine(void *arg)
 {
 	t_philo	*ph;
+	long	time;
 
 	ph = arg;
 	if (ph->id % 2 == 1)
 		usleep(400);
 	while (1)
 	{
-		if (ph->data->died_or_alive = DEAD)
-			return (arg);
 		ft_take_fork(ph);
 		ft_eat(ph);
 		ft_drop_fork(ph);
 		if (ph->data->ac == 6 && ph->nb_eat == ph->data->sixth_arg)
-			return(arg);
+			return (arg);
 		ft_sleep(ph);
 		ft_printf(ph, "is thinking");
 	}
@@ -95,7 +96,7 @@ int	ft_init_thread(t_philo *philos, t_central *central)
 		i = 0;
 		while (i < central->nb_philos)
 		{
-			if (philos[i].data->died_or_alive == DEAD)
+			if (timeactuel - filo i last eat > ttdead)
 			{
 				ft_printf(&philos[i], "died");
 				return (0);

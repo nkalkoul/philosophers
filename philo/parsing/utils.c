@@ -6,11 +6,11 @@
 /*   By: nkalkoul <nkalkoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 00:44:15 by nkalkoul          #+#    #+#             */
-/*   Updated: 2025/05/21 01:33:45 by nkalkoul         ###   ########.fr       */
+/*   Updated: 2025/05/21 22:54:59 by nkalkoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "../philo.h"
 
 int	ft_atoi(char *s)
 {

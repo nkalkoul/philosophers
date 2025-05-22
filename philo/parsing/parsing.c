@@ -6,11 +6,11 @@
 /*   By: nkalkoul <nkalkoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 20:04:09 by nkalkoul          #+#    #+#             */
-/*   Updated: 2025/05/21 01:28:39 by nkalkoul         ###   ########.fr       */
+/*   Updated: 2025/05/21 22:55:03 by nkalkoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "../philo.h"
 
 int	ft_parse_one(t_central *central)
 {
