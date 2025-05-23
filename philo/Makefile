@@ -1,6 +1,6 @@
 SRCS =	philo.c \
 		$(addprefix parsing/, utils.c parsing.c) \
-		$(addprefix routine/, routine.c) 
+		$(addprefix routine/, routine.c routine_utils.c routine_utils2.c) 
 CC =	cc -Wall -Werror -Wextra -g3
 NAME =	philo
 OBJS =	$(SRCS:.c=.o)

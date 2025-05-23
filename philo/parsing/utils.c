@@ -6,7 +6,7 @@
 /*   By: nkalkoul <nkalkoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 00:44:15 by nkalkoul          #+#    #+#             */
-/*   Updated: 2025/05/21 22:54:59 by nkalkoul         ###   ########.fr       */
+/*   Updated: 2025/05/23 08:49:21 by nkalkoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,22 +32,44 @@ int	ft_atoi(char *s)
 	return (nb);
 }
 
-long ft_current_time_in_ms(void)
+long	ft_current_time_in_ms(void)
 {
-	struct timeval yo;
-	long val;
+	struct timeval	yo;
+	long			val;
 
 	gettimeofday(&yo, NULL);
 	val = (yo.tv_sec * 1000) + yo.tv_usec / 1000;
 	return (val);
 }
 
-void	ft_printf(t_philo *ph, char *msg)
+int	ft_printf(t_philo *ph, char *msg, int monitor)
 {
 	long	time;
 
 	pthread_mutex_lock(&ph->data->print);
+	if (ft_whenis_dead(ph) == 1 && monitor == 0)
+	{
+		pthread_mutex_unlock(&ph->data->print);
+		return (1);
+	}
 	time = ft_current_time_in_ms();
 	printf("%ld %d %s\n", time - ph->data->start_time, ph->id, msg);
 	pthread_mutex_unlock(&ph->data->print);
+	return (0);
+}
+
+void	ft_end_mutex(t_philo *ph)
+{
+	int	i;
+
+	i = 0;
+	pthread_mutex_destroy(&ph->data->is_died);
+	pthread_mutex_destroy(&ph->data->print);
+	while (i < ph->data->nb_philos)
+	{
+		pthread_mutex_destroy(&ph[i].eat_last);
+		pthread_mutex_destroy(&ph[i].l_fork);
+		pthread_mutex_destroy(&ph[i].have_eat);
+		i++;
+	}
 }

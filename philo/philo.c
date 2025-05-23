@@ -6,7 +6,7 @@
 /*   By: nkalkoul <nkalkoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 19:47:55 by nkalkoul          #+#    #+#             */
-/*   Updated: 2025/05/21 00:26:53 by nkalkoul         ###   ########.fr       */
+/*   Updated: 2025/05/23 08:59:39 by nkalkoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,7 @@ int	main(int ac, char **av)
 		return (1);
 	if (ft_init_thread(philos, &central) == 1)
 		return (1);
+	ft_end_mutex(philos);
+	free(philos);
 	return (0);
 }

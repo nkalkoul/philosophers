@@ -5,78 +5,83 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: nkalkoul <nkalkoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/20 23:51:14 by nkalkoul          #+#    #+#             */
-/*   Updated: 2025/05/22 04:54:15 by nkalkoul         ###   ########.fr       */
+/*   Created: 2025/05/22 19:43:41 by nkalkoul          #+#    #+#             */
+/*   Updated: 2025/05/23 09:20:18 by nkalkoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
 
-void	ft_take_fork(t_philo *ph)
-{
-	if (ph->id % 2 == 1)
-	{
-		pthread_mutex_lock(&ph->l_fork);
-		ft_printf(ph, "has taken a fork");
-		pthread_mutex_lock(ph->r_fork);
-		ft_printf(ph, "has taken a fork");
-	}
-	else
-	{
-		pthread_mutex_lock(ph->r_fork);
-		ft_printf(ph, "has taken a fork");
-		pthread_mutex_lock(&ph->l_fork);
-		ft_printf(ph, "has taken a fork");
-	}
-}
-
-void	ft_eat(t_philo *philos)
-{
-	philos->last_eat = ft_current_time_in_ms();
-	ft_printf(philos, " is eating");
-	usleep(philos->data->tteat);
-	philos->nb_eat++;
-}
-
-void	ft_drop_fork(t_philo *ph)
-{
-	if (ph->id % 2 == 0)
-	{
-		pthread_mutex_unlock(&ph->l_fork);
-		pthread_mutex_unlock(ph->r_fork);
-	}
-	else
-	{
-		pthread_mutex_unlock(ph->r_fork);
-		pthread_mutex_unlock(&ph->l_fork);
-	}
-}
-
-void	ft_sleep(t_philo *philos)
-{
-	ft_printf(philos, "is sleeping");
-	usleep(philos->data->ttsleep);
-}
-
 void	*ft_routine(void *arg)
 {
 	t_philo	*ph;
-	long	time;
 
 	ph = arg;
 	if (ph->id % 2 == 1)
 		usleep(400);
 	while (1)
 	{
-		ft_take_fork(ph);
-		ft_eat(ph);
-		ft_drop_fork(ph);
-		if (ph->data->ac == 6 && ph->nb_eat == ph->data->sixth_arg)
+		if (ft_take_fork(ph) == 1)
 			return (arg);
-		ft_sleep(ph);
-		ft_printf(ph, "is thinking");
+		if (ft_eat(ph) == 1)
+			return (arg);
+		ft_drop_fork(ph);
+		pthread_mutex_lock(&ph->have_eat);
+		if (ph->data->ac == 6 && ph->nb_eat == ph->data->sixth_arg)
+		{
+			pthread_mutex_unlock(&ph->have_eat);
+			return (arg);
+		}
+		pthread_mutex_unlock(&ph->have_eat);
+		if (ft_sleep(ph) == 1)
+			return (arg);
+		if (ft_printf(ph, "is thinking", 0) == 1)
+			return (arg);
 	}
 	return (arg);
+}
+
+long	ft_ifeat(t_philo *ph)
+{
+	long	val;
+
+	pthread_mutex_lock(&ph->eat_last);
+	val = ph->last_eat;
+	pthread_mutex_unlock(&ph->eat_last);
+	return (val);
+}
+
+void	ft_monitoring(t_philo *philos, t_central *central)
+{
+	int	i;
+	int	nb_eat;
+
+	i = 0;
+	nb_eat = 0;
+	while (1)
+	{
+		if (i >= philos->data->nb_philos)
+			i = 0;
+		if (ft_current_time_in_ms()
+			- ft_ifeat(&philos[i]) > central->ttdie / 1000)
+		{
+			central->died_or_alive = DEAD;
+			ft_printf(&philos[i], "died", 1);
+			break ;
+		}
+		pthread_mutex_lock(&philos[i].have_eat);
+		if (central->ac == 6 && philos[i].nb_eat == central->sixth_arg)
+		{
+			nb_eat++;
+			if (nb_eat == philos->data->nb_philos)
+			{
+				pthread_mutex_unlock(&philos[i].have_eat);
+				break ;
+			}
+		}
+		pthread_mutex_unlock(&philos[i].have_eat);
+		i++;
+	}
 }
 
 int	ft_init_thread(t_philo *philos, t_central *central)
@@ -84,27 +89,24 @@ int	ft_init_thread(t_philo *philos, t_central *central)
 	int	i;
 
 	i = 0;
-	while (i < central->nb_philos)
+	if (central->nb_philos == 1)
 	{
 		if (pthread_create
-			(&philos[i].thread, NULL, ft_routine, &philos[i]) != 0)
+			(&philos[0].thread, NULL, ft_routine1, &philos[0]) != 0)
 			return (printf("Error create thread"), 1);
-		i++;
 	}
-	while (1)
+	else
 	{
-		i = 0;
 		while (i < central->nb_philos)
 		{
-			if (timeactuel - filo i last eat > ttdead)
-			{
-				ft_printf(&philos[i], "died");
-				return (0);
-			}
+			if (pthread_create
+				(&philos[i].thread, NULL, ft_routine, &philos[i]) != 0)
+				return (printf("Error create thread"), 1);
 			i++;
 		}
-	}
+		ft_monitoring(philos, central);
 	i = 0;
+	}
 	while (i < central->nb_philos)
 	{
 		if (pthread_join(philos[i].thread, NULL) != 0)

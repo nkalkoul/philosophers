@@ -6,7 +6,7 @@
 /*   By: nkalkoul <nkalkoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 19:45:41 by nkalkoul          #+#    #+#             */
-/*   Updated: 2025/05/22 03:51:18 by nkalkoul         ###   ########.fr       */
+/*   Updated: 2025/05/23 09:05:00 by nkalkoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ typedef struct s_central
 	long			ttdie;
 	long			tteat;
 	long			ttsleep;
-	long			nb_eat;
 	long			sixth_arg;
 	bool			died_or_alive;
 	pthread_mutex_t	is_died;
@@ -44,10 +43,12 @@ typedef struct s_central
 
 typedef struct s_philos
 {
-	int				last_eat;
+	long			last_eat;
 	int				id;
 	int				nb_eat;
 	pthread_t		thread;
+	pthread_mutex_t	have_eat;
+	pthread_mutex_t	eat_last;
 	pthread_mutex_t	l_fork;
 	pthread_mutex_t	*r_fork;
 	t_central		*data;
@@ -59,6 +60,17 @@ int			ft_atoi(char *s);
 t_philo		*ft_init_table(t_central *central);
 int			ft_init_thread(t_philo *philos, t_central *central);
 long		ft_current_time_in_ms(void);
-void		ft_printf(t_philo *ph, char *msg);
+int			ft_printf(t_philo *ph, char *msg, int monitor);
+void		*ft_routine(void *arg);
+int			ft_sleep(t_philo *philos);
+void		ft_drop_fork(t_philo *ph);
+int			ft_eat(t_philo *philos);
+int			ft_take_fork(t_philo *ph);
+int			ft_impair(t_philo *ph);
+int			ft_pair(t_philo *ph);
+int			ft_whenis_dead(t_philo *ph);
+void		ft_end_mutex(t_philo *ph);
+int			ft_usleep(t_philo *ph, long time);
+void		*ft_routine1(void *arg);
 
 #endif
