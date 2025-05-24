@@ -6,7 +6,7 @@
 /*   By: nkalkoul <nkalkoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 20:04:09 by nkalkoul          #+#    #+#             */
-/*   Updated: 2025/05/23 08:28:04 by nkalkoul         ###   ########.fr       */
+/*   Updated: 2025/05/24 07:08:15 by nkalkoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ void	ft_init_data(t_central *central)
 	central->died_or_alive = true;
 	pthread_mutex_init(&central->is_died, NULL);
 	pthread_mutex_init(&central->print, NULL);
-	central->start_time = ft_current_time_in_ms();
 }
 
 int	ft_parsing(t_central *central)
@@ -69,7 +68,6 @@ t_philo	*ft_init_table(t_central *central)
 		pthread_mutex_init(&philos[i].eat_last, NULL);
 		pthread_mutex_init(&philos[i].have_eat, NULL);
 		philos[i].r_fork = &philos[(i + 1) % central->nb_philos].l_fork;
-		philos[i].last_eat = ft_current_time_in_ms();
 		i++;
 	}
 	return (philos);

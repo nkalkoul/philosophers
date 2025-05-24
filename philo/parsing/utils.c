@@ -6,7 +6,7 @@
 /*   By: nkalkoul <nkalkoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 00:44:15 by nkalkoul          #+#    #+#             */
-/*   Updated: 2025/05/23 08:49:21 by nkalkoul         ###   ########.fr       */
+/*   Updated: 2025/05/24 06:41:31 by nkalkoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	ft_atoi(char *s)
 	return (nb);
 }
 
-long	ft_current_time_in_ms(void)
+long	ft_current_time(void)
 {
 	struct timeval	yo;
 	long			val;
@@ -52,7 +52,7 @@ int	ft_printf(t_philo *ph, char *msg, int monitor)
 		pthread_mutex_unlock(&ph->data->print);
 		return (1);
 	}
-	time = ft_current_time_in_ms();
+	time = ft_current_time();
 	printf("%ld %d %s\n", time - ph->data->start_time, ph->id, msg);
 	pthread_mutex_unlock(&ph->data->print);
 	return (0);
@@ -72,4 +72,5 @@ void	ft_end_mutex(t_philo *ph)
 		pthread_mutex_destroy(&ph[i].have_eat);
 		i++;
 	}
+	free(ph);
 }

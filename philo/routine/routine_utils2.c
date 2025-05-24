@@ -6,7 +6,7 @@
 /*   By: nkalkoul <nkalkoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 23:19:05 by nkalkoul          #+#    #+#             */
-/*   Updated: 2025/05/24 05:38:32 by nkalkoul         ###   ########.fr       */
+/*   Updated: 2025/05/24 08:59:41 by nkalkoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,13 +56,13 @@ int	ft_usleep(t_philo *ph, long time)
 {
 	long	actual;
 
-	actual = ft_current_time_in_ms();
+	actual = ft_current_time();
 	while (1)
 	{
 		if (ft_whenis_dead(ph) == 1)
 			return (1);
 		usleep(100);
-		if (ft_current_time_in_ms() - actual >= time / 1000)
+		if (ft_current_time() - actual >= time / 1000)
 			break ;
 	}
 	return (0);
@@ -73,6 +73,7 @@ void	*ft_routine1(void *arg)
 	t_philo	*ph;
 
 	ph = arg;
+	ph->data->start_time = ft_current_time();
 	ft_printf(ph, "has taken a fork", 0);
 	usleep(ph->data->ttdie);
 	ft_printf(ph, "died", 0);

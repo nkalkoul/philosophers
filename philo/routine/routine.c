@@ -6,7 +6,7 @@
 /*   By: nkalkoul <nkalkoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 19:43:41 by nkalkoul          #+#    #+#             */
-/*   Updated: 2025/05/24 04:54:59 by nkalkoul         ###   ########.fr       */
+/*   Updated: 2025/05/24 08:09:54 by nkalkoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,12 +60,14 @@ void	ft_monitoring(t_philo *philos, t_central *central)
 	nb_eat = 0;
 	while (1)
 	{
+		usleep(100);
 		if (i >= philos->data->nb_philos)
 			i = 0;
-		if (ft_current_time_in_ms()
-			- ft_ifeat(&philos[i]) > central->ttdie / 1000)
+		if (ft_current_time() - ft_ifeat(&philos[i]) > central->ttdie / 1000)
 		{
+			pthread_mutex_lock(&philos->data->is_died);
 			central->died_or_alive = DEAD;
+			pthread_mutex_unlock(&philos->data->is_died);
 			ft_printf(&philos[i], "died", 1);
 			break ;
 		}
@@ -89,24 +91,15 @@ int	ft_init_thread(t_philo *philos, t_central *central)
 	int	i;
 
 	i = 0;
-	if (central->nb_philos == 1)
+	while (i < central->nb_philos)
 	{
 		if (pthread_create
-			(&philos[0].thread, NULL, ft_routine1, &philos[0]) != 0)
+			(&philos[i].thread, NULL, ft_routine, &philos[i]) != 0)
 			return (printf("Error create thread"), 1);
+		i++;
 	}
-	else
-	{
-		while (i < central->nb_philos)
-		{
-			if (pthread_create
-				(&philos[i].thread, NULL, ft_routine, &philos[i]) != 0)
-				return (printf("Error create thread"), 1);
-			i++;
-		}
-		ft_monitoring(philos, central);
+	ft_monitoring(philos, central);
 	i = 0;
-	}
 	while (i < central->nb_philos)
 	{
 		if (pthread_join(philos[i].thread, NULL) != 0)

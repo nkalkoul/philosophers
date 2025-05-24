@@ -6,7 +6,7 @@
 /*   By: nkalkoul <nkalkoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 19:45:41 by nkalkoul          #+#    #+#             */
-/*   Updated: 2025/05/23 09:05:00 by nkalkoul         ###   ########.fr       */
+/*   Updated: 2025/05/24 06:41:36 by nkalkoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int			ft_parsing(t_central *central);
 int			ft_atoi(char *s);
 t_philo		*ft_init_table(t_central *central);
 int			ft_init_thread(t_philo *philos, t_central *central);
-long		ft_current_time_in_ms(void);
+long		ft_current_time(void);
 int			ft_printf(t_philo *ph, char *msg, int monitor);
 void		*ft_routine(void *arg);
 int			ft_sleep(t_philo *philos);
