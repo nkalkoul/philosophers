@@ -6,7 +6,7 @@
 /*   By: nkalkoul <nkalkoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 19:43:41 by nkalkoul          #+#    #+#             */
-/*   Updated: 2025/05/23 09:20:18 by nkalkoul         ###   ########.fr       */
+/*   Updated: 2025/05/24 04:54:59 by nkalkoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	*ft_routine(void *arg)
 
 	ph = arg;
 	if (ph->id % 2 == 1)
-		usleep(400);
+		usleep(100);
 	while (1)
 	{
 		if (ft_take_fork(ph) == 1)

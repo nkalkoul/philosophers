@@ -6,7 +6,7 @@
 /*   By: nkalkoul <nkalkoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 23:51:14 by nkalkoul          #+#    #+#             */
-/*   Updated: 2025/05/23 08:37:03 by nkalkoul         ###   ########.fr       */
+/*   Updated: 2025/05/24 05:40:17 by nkalkoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	ft_whenis_dead(t_philo *ph)
 
 int	ft_take_fork(t_philo *ph)
 {
-	if (ph->id % 2 == 1)
+	if (ph->id % 2 == 1 || ph->data->nb_philos % 2 != 0)
 	{
 		if (ft_impair(ph) == 1)
 			return (1);
