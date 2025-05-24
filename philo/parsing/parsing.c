@@ -6,7 +6,7 @@
 /*   By: nkalkoul <nkalkoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 20:04:09 by nkalkoul          #+#    #+#             */
-/*   Updated: 2025/05/24 07:08:15 by nkalkoul         ###   ########.fr       */
+/*   Updated: 2025/05/24 16:12:01 by nkalkoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	ft_parse_one(t_central *central)
 {
 	central->nb_philos = ft_atoi(central->av[1]);
 	if (central->nb_philos == 0)
-		return (printf("Error: nb philo more than 0"), 1);
+		return (printf("Error: nb philo more than 0\n"), 1);
 	if (central->nb_philos < 0)
 		return (1);
 	central->ttdie = ft_atoi(central->av[2]);

@@ -6,7 +6,7 @@
 /*   By: nkalkoul <nkalkoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 19:47:55 by nkalkoul          #+#    #+#             */
-/*   Updated: 2025/05/24 07:18:16 by nkalkoul         ###   ########.fr       */
+/*   Updated: 2025/05/24 10:13:31 by nkalkoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,19 +31,20 @@ int	main(int ac, char **av)
 	t_philo			*philos;
 
 	if (ac < 5 || ac > 6)
-		return (1);
+		return (printf("5 or 6 args required\n"), 1);
 	central.ac = ac;
 	central.av = av;
 	if (ft_parsing(&central) == 1)
 		return (1);
 	philos = ft_init_table(&central);
 	if (!philos)
-		return (1);
+		return (printf("Error malloc\n"), 1);
 	if (central.nb_philos == 1)
 	{
 		if (pthread_create
 			(&philos[0].thread, NULL, ft_routine1, &philos[0]) != 0)
-			return (printf("Error create thread"), 1);
+			return (printf("Error create thread\n"), 1);
+		pthread_join(philos[0].thread, NULL);
 	}
 	else
 	{
