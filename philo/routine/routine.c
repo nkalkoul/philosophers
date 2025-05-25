@@ -6,7 +6,7 @@
 /*   By: nkalkoul <nkalkoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 19:43:41 by nkalkoul          #+#    #+#             */
-/*   Updated: 2025/05/24 17:06:02 by nkalkoul         ###   ########.fr       */
+/*   Updated: 2025/05/25 13:31:57 by nkalkoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,21 @@ long	ft_ifeat(t_philo *ph)
 	return (val);
 }
 
+int	ft_monitoring_dead(t_philo *philos, t_central *central, int *i)
+{
+	if (*i >= philos->data->nb_philos)
+		*i = 0;
+	if (ft_current_time() - ft_ifeat(&philos[*i]) > central->ttdie / 1000)
+	{
+		pthread_mutex_lock(&philos->data->is_died);
+		central->died_or_alive = DEAD;
+		pthread_mutex_unlock(&philos->data->is_died);
+		ft_printf(&philos[*i], "died", 1);
+		return (1);
+	}
+	return (0);
+}
+
 void	ft_monitoring(t_philo *philos, t_central *central)
 {
 	int	i;
@@ -61,16 +76,8 @@ void	ft_monitoring(t_philo *philos, t_central *central)
 	while (1)
 	{
 		usleep(100);
-		if (i >= philos->data->nb_philos)
-			i = 0;
-		if (ft_current_time() - ft_ifeat(&philos[i]) > central->ttdie / 1000)
-		{
-			pthread_mutex_lock(&philos->data->is_died);
-			central->died_or_alive = DEAD;
-			pthread_mutex_unlock(&philos->data->is_died);
-			ft_printf(&philos[i], "died", 1);
+		if (ft_monitoring_dead(philos, central, &i) == 1)
 			break ;
-		}
 		pthread_mutex_lock(&philos[i].have_eat);
 		if (central->ac == 6 && philos[i].nb_eat == central->sixth_arg)
 		{

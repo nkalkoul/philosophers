@@ -6,7 +6,7 @@
 /*   By: nkalkoul <nkalkoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 23:19:05 by nkalkoul          #+#    #+#             */
-/*   Updated: 2025/05/24 16:38:04 by nkalkoul         ###   ########.fr       */
+/*   Updated: 2025/05/25 13:35:10 by nkalkoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,22 +74,6 @@ int	ft_pair(t_philo *ph)
 	{
 		ft_drop_fork(ph);
 		return (1);
-	}
-	return (0);
-}
-
-int	ft_usleep(t_philo *ph, long time)
-{
-	long	actual;
-
-	actual = ft_current_time();
-	while (1)
-	{
-		if (ft_whenis_dead(ph) == 1)
-			return (1);
-		usleep(100);
-		if (ft_current_time() - actual >= time / 1000)
-			break ;
 	}
 	return (0);
 }

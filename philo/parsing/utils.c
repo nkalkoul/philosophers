@@ -6,7 +6,7 @@
 /*   By: nkalkoul <nkalkoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 00:44:15 by nkalkoul          #+#    #+#             */
-/*   Updated: 2025/05/24 06:41:31 by nkalkoul         ###   ########.fr       */
+/*   Updated: 2025/05/25 13:35:23 by nkalkoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,4 +73,20 @@ void	ft_end_mutex(t_philo *ph)
 		i++;
 	}
 	free(ph);
+}
+
+int	ft_usleep(t_philo *ph, long time)
+{
+	long	actual;
+
+	actual = ft_current_time();
+	while (1)
+	{
+		if (ft_whenis_dead(ph) == 1)
+			return (1);
+		usleep(100);
+		if (ft_current_time() - actual >= time / 1000)
+			break ;
+	}
+	return (0);
 }

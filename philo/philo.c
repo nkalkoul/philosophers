@@ -6,7 +6,7 @@
 /*   By: nkalkoul <nkalkoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 19:47:55 by nkalkoul          #+#    #+#             */
-/*   Updated: 2025/05/24 10:13:31 by nkalkoul         ###   ########.fr       */
+/*   Updated: 2025/05/25 13:32:17 by nkalkoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,15 @@ void	ft_set_time(t_philo *ph, t_central *central)
 	}
 }
 
+int	ft_one_philo(t_philo *philos)
+{
+	if (pthread_create
+		(&philos[0].thread, NULL, ft_routine1, &philos[0]) != 0)
+		return (printf("Error create thread\n"), 1);
+	pthread_join(philos[0].thread, NULL);
+	return (0);
+}
+
 int	main(int ac, char **av)
 {
 	t_central		central;
@@ -41,10 +50,8 @@ int	main(int ac, char **av)
 		return (printf("Error malloc\n"), 1);
 	if (central.nb_philos == 1)
 	{
-		if (pthread_create
-			(&philos[0].thread, NULL, ft_routine1, &philos[0]) != 0)
-			return (printf("Error create thread\n"), 1);
-		pthread_join(philos[0].thread, NULL);
+		if (ft_one_philo(philos) == 1)
+			return (1);
 	}
 	else
 	{
