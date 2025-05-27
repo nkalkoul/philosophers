@@ -6,7 +6,7 @@
 /*   By: nkalkoul <nkalkoul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 23:19:05 by nkalkoul          #+#    #+#             */
-/*   Updated: 2025/05/25 13:35:10 by nkalkoul         ###   ########.fr       */
+/*   Updated: 2025/05/27 07:05:09 by nkalkoul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ int	ft_impair(t_philo *ph)
 		pthread_mutex_unlock(&ph->l_fork);
 		return (1);
 	}
+	usleep(1000);
 	pthread_mutex_lock(ph->r_fork);
 	if (ft_printf(ph, "has taken a fork", 0) == 1)
 	{
